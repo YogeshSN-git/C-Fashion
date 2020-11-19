@@ -47,4 +47,9 @@ public class UserServiceImpl implements UserService {
 		return userRepository.existsByUserIdAndPassword(userId, password);
 	}
 
+	@Override
+	public User getUser(Integer userId) {
+		return userRepository.findById(userId).get();
+	}
+
 }

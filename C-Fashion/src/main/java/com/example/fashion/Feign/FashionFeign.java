@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.fashion.Model.FashionItem;
 
 @FeignClient("zuul-gateway")
-public interface CartFeign {
+public interface FashionFeign {
 
 	@PostMapping("/cart-service/addtocart/{userId}/{itemId}")
 	public void addToCart(@PathVariable(value = "userId") Integer userId,

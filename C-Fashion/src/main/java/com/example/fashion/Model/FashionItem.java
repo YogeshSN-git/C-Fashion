@@ -1,6 +1,5 @@
 package com.example.fashion.Model;
 
-import java.beans.Transient;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,12 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter @NoArgsConstructor 
+@Getter
+@Setter
+@NoArgsConstructor
 public class FashionItem {
 
 	@Id
@@ -27,16 +30,11 @@ public class FashionItem {
 	private double price;
 	private boolean inStock;
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "cartList")
 	private Set<User> userList;
 
 	@Column(length = 1000)
 	private String image;
 
-	@Transient
-	public Set<User> getUserList() {
-		return userList;
-	}
-
-	
 }

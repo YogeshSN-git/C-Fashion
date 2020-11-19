@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.fashion.Feign.CartFeign;
+import com.example.fashion.Feign.FashionFeign;
 import com.example.fashion.Model.FashionItem;
 import com.example.fashion.Service.FashionService;
 import com.example.fashion.Service.UserService;
@@ -34,7 +34,7 @@ public class CustomerController {
 	UserService userService;
 
 	@Autowired
-	CartFeign cartFeign;
+	FashionFeign fashionFeign;
 
 	@GetMapping("")
 	public List<FashionItem> getCustomerItems() {
@@ -45,7 +45,7 @@ public class CustomerController {
 	public ResponseEntity<?> addToCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
 
-		cartFeign.addToCart(userId, itemId);
+		fashionFeign.addToCart(userId, itemId);
 		return ResponseEntity.ok().body("Added to Cart");
 	}
 
@@ -53,21 +53,20 @@ public class CustomerController {
 	public ResponseEntity<?> removeFromCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
 
-		cartFeign.removeFromCart(userId, itemId);
+		fashionFeign.removeFromCart(userId, itemId);
 		return ResponseEntity.ok().body("Removed From Cart");
 	}
 
 	@GetMapping("/cart/{userId}")
 	public Set<FashionItem> cart(@PathVariable(value = "userId") Integer userId) {
-		return cartFeign.cart(userId);
+		return fashionFeign.cart(userId);
 	}
 
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(FeignException.NotFound.class)
-	public ResponseEntity<?> handleFeignExceptions(FeignException ex) {
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(FeignException.BadRequest.class)
+	public ResponseEntity<?> handleFeignBadRequestExceptions(FeignException ex) {
 
 		log.error("Bad Request: Cannot find User or Fashion item");
 		return ResponseEntity.badRequest().body("Bad Request: Cannot find User or Fashion item");
 	}
-
 }

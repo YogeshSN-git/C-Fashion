@@ -1,6 +1,5 @@
 package com.example.fashion.Model;
 
-import java.beans.Transient;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -10,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class User {
 	private String password;
 	private String role;
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "cart_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "fashionItem_id"))
 	private Set<FashionItem> cartList;
@@ -39,11 +41,6 @@ public class User {
 		this.name = name;
 		this.userId = userId;
 		this.password = password;
-	}
-
-	@Transient
-	public Set<FashionItem> getCartList() {
-		return cartList;
 	}
 
 }

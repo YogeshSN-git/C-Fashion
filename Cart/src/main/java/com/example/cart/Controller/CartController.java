@@ -25,6 +25,7 @@ public class CartController {
 	@Autowired
 	CartService cartService;
 
+
 	@PostMapping("/addtocart/{userId}/{itemId}")
 	public void addToCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
@@ -47,10 +48,10 @@ public class CartController {
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(NoSuchElementException.class)
-	public ResponseEntity<?> handleValidationExceptions(NoSuchElementException ex) {
+	public ResponseEntity<?> handleUserNotFoundExceptions(NoSuchElementException ex) {
 
-		log.error("NoSuchElementException: User or Fashion item not present");
-		return ResponseEntity.notFound().build();
+		log.error("Bad Request: Cannot find User or Fashion item");
+		return ResponseEntity.badRequest().build();
 	}
 
 }
