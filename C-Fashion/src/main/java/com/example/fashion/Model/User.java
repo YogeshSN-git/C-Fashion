@@ -11,7 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
 
 	@Id
@@ -21,50 +28,22 @@ public class User {
 	private String name;
 	private String userId;
 	private String password;
+	private String role;
 
 	@ManyToMany
 	@JoinTable(name = "cart_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "fashionItem_id"))
 	private Set<FashionItem> cartList;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
+	public User(String name, String userId, String password, String role) {
+		super();
 		this.name = name;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	@Transient
 	public Set<FashionItem> getCartList() {
 		return cartList;
-	}
-
-	public void setCartList(Set<FashionItem> cartList) {
-		this.cartList = cartList;
 	}
 
 }

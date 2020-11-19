@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cart.Model.FashionItem;
-import com.example.cart.Service.FashionService;
-import com.example.cart.Service.UserService;
+import com.example.cart.Service.CartService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,36 +23,28 @@ import lombok.extern.slf4j.Slf4j;
 public class CartController {
 
 	@Autowired
-	FashionService fashionService;
-
-	@Autowired
-	UserService userService;
+	CartService cartService;
 
 	@PostMapping("/addtocart/{userId}/{itemId}")
 	public void addToCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
-		
-		log.info("adding item "+itemId+" to user "+userId+" cart");
-		userService.addToCart(userId, itemId);
+
+		cartService.addToCart(userId, itemId);
 	}
 
 	@PostMapping("/removefromcart/{userId}/{itemId}")
 	public void removeFromCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
 
-		log.info("removing item "+itemId+" from user "+userId+" cart");
-		userService.removeFromCart(userId, itemId);
+		cartService.removeFromCart(userId, itemId);
 	}
 
 	@GetMapping("/cart/{userId}")
 	public Set<FashionItem> cart(@PathVariable(value = "userId") Integer userId) {
 
-		log.info("Fetching cart list for user:"+userId);
-		return userService.findUserById(userId).getCartList();
+		return cartService.showCart(userId);
 	}
-	
-	
-	
+
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(NoSuchElementException.class)
 	public ResponseEntity<?> handleValidationExceptions(NoSuchElementException ex) {

@@ -1,15 +1,15 @@
-package com.example.cart.Service;
+package com.example.fashion.Service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.cart.Model.FashionItem;
-import com.example.cart.Repository.FashionRepository;
+import com.example.fashion.Model.FashionItem;
+import com.example.fashion.Repository.FashionRepository;
 
 @Service
-public class FashionService {
+public class FashionServiceImpl implements FashionService {
 
 	@Autowired
 	FashionRepository fashionRepository;
@@ -17,22 +17,27 @@ public class FashionService {
 	@Autowired
 	UserService userService;
 
+	@Override
 	public List<FashionItem> getAdimnItems() {
 		return fashionRepository.findAll();
 	}
-	
+
+	@Override
 	public FashionItem getItem(int id) {
 		return fashionRepository.findById(id).get();
 	}
 
+	@Override
 	public void addItem(FashionItem fashionItem) {
 		fashionRepository.save(fashionItem);
 	}
 
+	@Override
 	public void deleteItem(int id) {
 		fashionRepository.deleteById(id);
 	}
 
+	@Override
 	public List<FashionItem> getCustomerItems() {
 		return fashionRepository.findByInStockTrue();
 	}

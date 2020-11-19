@@ -46,7 +46,6 @@ public class CustomerController {
 			@PathVariable(value = "itemId") Integer itemId) {
 
 		cartFeign.addToCart(userId, itemId);
-		log.info("Added to Cart");
 		return ResponseEntity.ok().body("Added to Cart");
 	}
 
@@ -55,7 +54,6 @@ public class CustomerController {
 			@PathVariable(value = "itemId") Integer itemId) {
 
 		cartFeign.removeFromCart(userId, itemId);
-		log.info("Removed From Cart");
 		return ResponseEntity.ok().body("Removed From Cart");
 	}
 
@@ -66,7 +64,7 @@ public class CustomerController {
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(FeignException.NotFound.class)
-	public ResponseEntity<?> handleBadRequestExceptions(FeignException ex) {
+	public ResponseEntity<?> handleFeignExceptions(FeignException ex) {
 
 		log.error("Bad Request: Cannot find User or Fashion item");
 		return ResponseEntity.badRequest().body("Bad Request: Cannot find User or Fashion item");
