@@ -1,4 +1,4 @@
-package com.example.cart.Model;
+package com.example.fashion.Model;
 
 import java.util.Set;
 
@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +29,19 @@ public class User {
 	private String name;
 	private String userId;
 	private String password;
+	private String role;
 
 	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "cart_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "fashionItem_id"))
 	private Set<FashionItem> cartList;
 
+	public Users(String name, String userId, String password, String role) {
+		super();
+		this.name = name;
+		this.userId = userId;
+		this.password = password;
+		this.role=role;
+	}
 
 }

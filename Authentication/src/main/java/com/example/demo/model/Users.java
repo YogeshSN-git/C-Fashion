@@ -1,16 +1,9 @@
-package com.example.fashion.Model;
-
-import java.util.Set;
+package com.example.demo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,16 +24,12 @@ public class User {
 	private String password;
 	private String role;
 
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "cart_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "fashionItem_id"))
-	private Set<FashionItem> cartList;
-
-	public User(String name, String userId, String password, String role) {
+	public Users(String name, String userId, String password, String role) {
 		super();
 		this.name = name;
 		this.userId = userId;
 		this.password = password;
+		this.role=role;
 	}
 
 }

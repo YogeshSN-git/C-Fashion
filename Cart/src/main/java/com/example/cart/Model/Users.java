@@ -2,11 +2,12 @@ package com.example.cart.Model;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,22 +20,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FashionItem {
+public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
-	private String category;
-	private double price;
-	private boolean inStock;
+	private String userId;
+	private String password;
+	private String role;
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "cartList")
-	private Set<Users> userList;
+	@ManyToMany
+	@JoinTable(name = "cart_list", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "fashionItem_id"))
+	private Set<FashionItem> cartList;
 
-	@Column(length = 1000)
-	private String image;
+	public Users(String name, String userId, String password, String role) {
+		super();
+		this.name = name;
+		this.userId = userId;
+		this.password = password;
+		this.role=role;
+	}
 
 }

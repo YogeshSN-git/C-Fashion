@@ -32,7 +32,7 @@ public class FashionItem {
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "cartList")
-	private Set<User> userList;
+	private Set<Users> userList;
 
 	@Column(length = 1000)
 	private String image;

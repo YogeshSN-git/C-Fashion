@@ -2,8 +2,6 @@ package com.example.fashion.Service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.example.fashion.Model.FashionItem;
 
 public interface FashionService {

@@ -5,14 +5,14 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.fashion.Model.User;
+import com.example.fashion.Model.Users;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<Users, Integer>{
 
 	Boolean existsByUserId(String userId);
 
 	Boolean existsByUserIdAndPassword(String userId, String password);
 
-	Optional<User> findByUserId(String userId);
+	Optional<Users> findByUserId(String userId);
 }

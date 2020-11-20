@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.cart.Model.FashionItem;
-import com.example.cart.Model.User;
+import com.example.cart.Model.Users;
 import com.example.cart.Repository.FashionRepository;
 import com.example.cart.Repository.UserRepository;
 
@@ -28,7 +28,7 @@ public class CartServiceImpl implements CartService {
 
 	public void addToCart(Integer userId, Integer itemId) {
 
-		User user = userRepository.findById(userId).get();
+		Users user = userRepository.findById(userId).get();
 		user.getCartList().add(fashionRepository.findById(itemId).get());
 
 		userRepository.save(user);
@@ -38,7 +38,7 @@ public class CartServiceImpl implements CartService {
 	}
 
 	public void removeFromCart(Integer userId, Integer itemId) {
-		User user = userRepository.findById(userId).get();
+		Users user = userRepository.findById(userId).get();
 		user.getCartList().remove(fashionRepository.findById(itemId).get());
 
 		userRepository.save(user);
