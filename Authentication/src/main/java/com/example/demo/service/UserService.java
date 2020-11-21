@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService{
 		if(user==null) {
 			throw new UsernameNotFoundException("User not found");
 		}
-		System.out.println(user.getName()+user.getRole()+user.getUserId());
+//		System.out.println(user.getName()+user.getRole()+user.getUserId());
 
 		return new User(user.getUserId(),user.getPassword(),new ArrayList<>());
 	}

@@ -33,7 +33,6 @@ public class CartServiceImpl implements CartService {
 
 		userRepository.save(user);
 
-		log.info("Item " + itemId + " added to user " + userId + " cart");
 
 	}
 
@@ -43,7 +42,6 @@ public class CartServiceImpl implements CartService {
 
 		userRepository.save(user);
 
-		log.info("Item " + itemId + " removed from user " + userId + " cart");
 
 	}
 
