@@ -48,21 +48,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.badRequest().body(new MessageResponse("Bad Request: Item does not exist"));
 	}
 	
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	@ExceptionHandler(Unauthorized.class)
-	public ResponseEntity<?> handleUnauthorizedExceptions(Unauthorized ex) {
-
-		log.error("Unauthorized request");
-		return ResponseEntity.badRequest().body(new MessageResponse("Unauthorized request. Login again..."));
-	}
-	
-
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	@ExceptionHandler(Forbidden.class)
-	public ResponseEntity<?> handleForbiddenExceptions(Forbidden ex) {
-
-		log.error("Forbidden request");
-		return ResponseEntity.badRequest().body(new MessageResponse("You are not allowed to access this url"));
-	}
+//	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+//	@ExceptionHandler(Unauthorized.class)
+//	public ResponseEntity<?> handleUnauthorizedExceptions(Unauthorized ex) {
+//
+//		log.error("Unauthorized request");
+//		return ResponseEntity.badRequest().body(new MessageResponse("Unauthorized request. Login again..."));
+//	}
+//	
+//
+//	@ResponseStatus(HttpStatus.FORBIDDEN)
+//	@ExceptionHandler(Forbidden.class)
+//	public ResponseEntity<?> handleForbiddenExceptions(Forbidden ex) {
+//
+//		log.error("Forbidden request");
+//		return ResponseEntity.badRequest().body(new MessageResponse("You are not allowed to access this url"));
+//	}
 
 }

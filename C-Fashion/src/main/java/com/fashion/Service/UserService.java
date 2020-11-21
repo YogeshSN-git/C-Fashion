@@ -2,6 +2,7 @@ package com.fashion.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,9 +25,6 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
 
-	@Autowired
-	FashionService fashionService;
-
 	public void addUser(Users user) {
 
 		Users userObj = new Users(user.getName(), user.getUserId(), user.getPassword(), user.getRole());
@@ -35,8 +33,8 @@ public class UserService implements UserDetailsService {
 		log.info("User Registered Successfully");
 	}
 
-	public Users findUserById(int id) {
-		return userRepository.findById(id).get();
+	public Optional<Users> findUserById(int id) {
+		return userRepository.findById(id);
 	}
 
 	public boolean existByUserId(String userId) {
@@ -54,12 +52,10 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		System.out.println(username);
 		Users findByName = userRepository.findByUserId(username).orElse(null);
 		if(findByName==null) {
 			throw new UsernameNotFoundException("User not found");
 		}
-//		System.out.println(findByName.getName()+findByName.getRole()+findByName.getUserId());
 		GrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(findByName.getRole());
 
 		List<GrantedAuthority> authorities = new ArrayList<>();

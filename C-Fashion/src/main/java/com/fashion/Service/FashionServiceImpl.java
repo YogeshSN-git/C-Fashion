@@ -14,9 +14,6 @@ public class FashionServiceImpl implements FashionService {
 	@Autowired
 	FashionRepository fashionRepository;
 	
-	@Autowired
-	UserService userService;
-
 	@Override
 	public List<FashionItem> getAdimnItems() {
 		return fashionRepository.findAll();

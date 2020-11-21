@@ -2,7 +2,6 @@ package com.fashion.Model;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +33,16 @@ public class FashionItem {
 	@ManyToMany(mappedBy = "cartList")
 	private Set<Users> userList;
 
-	@Column(length = 1000)
-	private String image;
+	public FashionItem(int id, String name, String category, double price, boolean inStock) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.price = price;
+		this.inStock = inStock;
+	}
 
+	
+	
+	
 }

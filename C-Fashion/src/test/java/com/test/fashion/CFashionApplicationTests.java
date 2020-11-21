@@ -1,13 +1,16 @@
 package com.test.fashion;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class CFashionApplicationTests {
+import com.fashion.CFashionApplication;
 
-	@Test
-	void contextLoads() {
-	}
+@SpringBootTest 
+public class CFashionApplicationTests {
+
+//	@Test
+//	public void main() {
+//		CFashionApplication.main(new String[] {});
+//	}
 
 }

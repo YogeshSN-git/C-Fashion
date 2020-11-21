@@ -32,34 +32,38 @@ public class CustomerController {
 	FashionFeign fashionFeign;
 
 	@GetMapping("/all")
-	public List<FashionItem> getCustomerItems(@RequestHeader("Authorization") final String token) {
+	public List<FashionItem> getCustomerItems() {
 		return fashionService.getCustomerItems();
 	}
 
 	@PostMapping("/addtocart/{userId}/{itemId}")
-	public ResponseEntity<?> addToCart(@RequestHeader("Authorization") final String token,@PathVariable(value = "userId") Integer userId,
+	public ResponseEntity<?> addToCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
-		
+
 		if (userService.isCustomer(userId)) {
-			
+
 			fashionFeign.addToCart(userId, itemId);
 			return ResponseEntity.ok().body(new MessageResponse("Added to Cart"));
 		}
-		
-		return ResponseEntity.badRequest().body(new MessageResponse("Not a valid customer")); 
+
+		return ResponseEntity.badRequest().body(new MessageResponse("Not a valid customer"));
 	}
 
 	@PostMapping("/removefromcart/{userId}/{itemId}")
-	public ResponseEntity<?> removeFromCart(@RequestHeader("Authorization") final String token,@PathVariable(value = "userId") Integer userId,
+	public ResponseEntity<?> removeFromCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
+		
+		if (userService.isCustomer(userId)) {
+			fashionFeign.removeFromCart(userId, itemId);
+			return ResponseEntity.ok().body(new MessageResponse("Removed From Cart"));
+		}
 
-		fashionFeign.removeFromCart(userId, itemId);
-		return ResponseEntity.ok().body(new MessageResponse("Removed From Cart"));
+		return ResponseEntity.badRequest().body(new MessageResponse("Not a valid customer"));
 	}
 
 	@GetMapping("/cart/{userId}")
-	public Set<FashionItem> cart(@RequestHeader("Authorization") final String token, @PathVariable(value = "userId") Integer userId) {
+	public Set<FashionItem> cart(@PathVariable(value = "userId") Integer userId) {
 		return fashionFeign.cart(userId);
 	}
-	
+
 }

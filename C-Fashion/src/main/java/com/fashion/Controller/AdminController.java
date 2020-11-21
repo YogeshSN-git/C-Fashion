@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fashion.Model.FashionItem;
 import com.fashion.Model.MessageResponse;
 import com.fashion.Service.FashionService;
-import com.fashion.Service.UserService;
 
 @RestController
 @RequestMapping("/admin")
@@ -25,22 +23,19 @@ public class AdminController {
 	@Autowired
 	FashionService fashionService;
 
-	@Autowired
-	UserService userService;
-
 	@GetMapping("/all")
-	public List<FashionItem> getAdimnItems(@RequestHeader("Authorization") final String token) {
+	public List<FashionItem> getAdimnItems() {
 		return fashionService.getAdimnItems();
 	}
 
 	@PostMapping("/additem")
-	public ResponseEntity<?> addItem(@RequestHeader("Authorization") final String token,@RequestBody FashionItem fashionItem) {
+	public ResponseEntity<?> addItem(@RequestBody FashionItem fashionItem) {
 		fashionService.addItem(fashionItem);
 		return ResponseEntity.ok().body(new MessageResponse("Item added"));
 	}
 
 	@DeleteMapping("/deleteitem/{fashionItemId}")
-	public ResponseEntity<?> deleteItem(@RequestHeader("Authorization") final String token,@PathVariable(value = "fashionItemId") Integer fashionItemId) {
+	public ResponseEntity<?> deleteItem(@PathVariable(value = "fashionItemId") Integer fashionItemId) {
 		fashionService.deleteItem(fashionItemId);
 		return ResponseEntity.ok().body(new MessageResponse("Item deleted"));
 	}
