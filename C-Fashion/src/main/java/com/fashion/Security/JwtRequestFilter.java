@@ -41,6 +41,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				username = authFeign.getUsername(jwt);
 			}
 		}
+		
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = this.userService.loadUserByUsername(username);
 			

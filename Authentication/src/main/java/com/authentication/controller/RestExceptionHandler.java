@@ -19,10 +19,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(UnauthorizedException.class)
-	public ResponseEntity<?> handleEmptyResultDataAccessExceptions(UnauthorizedException ex) {
+	public ResponseEntity<?> unauthorized(UnauthorizedException ex) {
 
 		log.error("Bad Request: Invalid credentials");
-		return ResponseEntity.badRequest().body("Bad Request: Invalid credentials");
+		return ResponseEntity.status(401).body("Bad Request: Invalid credentials") ;
 	}
+	
+	
 
 }

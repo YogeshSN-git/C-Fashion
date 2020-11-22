@@ -9,7 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
-	private String name;
-	private boolean isValid;
+public class MessageResponse {
+
+	String message;
+	
+	
+	
+	
 }

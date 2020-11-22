@@ -34,7 +34,7 @@ public class UserServiceTest {
 		Users user = new Users(1, "name", "uid", "upass", "urole", null);
 		Optional<Users> data = Optional.of(user);
 
-		when(userService.findUserById(1)).thenReturn(data);
+		when(userRepository.findById(1)).thenReturn(data);
 
 		assertEquals(user.getUserId(), userService.findUserById(1).get().getUserId());
 	}
@@ -66,9 +66,12 @@ public class UserServiceTest {
 
 	@Test
 	public void testUser() {
+		
+		
 		Users user = new Users(1, "name", "uid", "upass", "ROLE_CUSTOMER", null);
 		Optional<Users> user1 = Optional.of(user);
 		when(userRepository.findById(1)).thenReturn(user1);
+		
 		assertEquals(user.getUserId(), userService.getUser(1).getUserId());
 	}
 

@@ -8,15 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.authentication.model.AuthResponse;
+import com.authentication.model.MessageResponse;
 import com.authentication.model.Users;
 import com.authentication.service.JwtUtil;
 import com.authentication.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 public class AuthController {
 
@@ -24,27 +29,32 @@ public class AuthController {
 	private JwtUtil jwtutil;
 	@Autowired
 	private UserService userService;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@RequestBody Users userlogincredentials) {
 
 		final UserDetails userdetails = userService.loadUserByUsername(userlogincredentials.getUserId());
+		
 		String generateToken = "";
-		if (userdetails.getPassword().equals(userlogincredentials.getPassword())) {
-			int uid = userlogincredentials.getId();
-			generateToken = jwtutil.generateToken(userdetails);
-		}
-		else {
+		
+		try {
+			if (userdetails.getPassword().equals(userlogincredentials.getPassword())) {
+				generateToken = jwtutil.generateToken(userdetails);
+				return new ResponseEntity<>(new MessageResponse(generateToken), HttpStatus.OK);
+			} else {
+				throw new UnauthorizedException("Invalid credentials");
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
 			throw new UnauthorizedException("Invalid credentials");
 		}
-		return new ResponseEntity<>(generateToken, HttpStatus.OK);
-		
+
 	}
 
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
-	public AuthResponse getValidity(@RequestBody String token) {
+	public AuthResponse getValidity(@RequestHeader("Authorization") final String token) {
 //		String token1 = token.substring(7);
 		AuthResponse res = new AuthResponse();
 		if (jwtutil.validateToken(token)) {
@@ -52,18 +62,15 @@ public class AuthController {
 			res.setValid(true);
 		} else {
 			res.setValid(false);
-			LOGGER.info("At Validity : ");
-			LOGGER.error("Token Has Expired");
+			log.info("At Validity : ");
+			log.error("Token Has Expired");
 		}
 		return res;
 	}
-	
-	
+
 	@PostMapping("/getusername")
 	public String getUsername(@RequestBody String token) {
 		return jwtutil.extractUsername(token);
 	}
-
-	
 
 }

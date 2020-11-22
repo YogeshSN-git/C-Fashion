@@ -32,6 +32,10 @@ public class FashionController {
 	@PostMapping("/adduser")
 	public ResponseEntity<?> addUser(@RequestBody Users user) {
 
+		if(user.getUserId()==null||user.getPassword()==null) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Enter user name"));
+		}
+		
 		if (userService.existByUserId(user.getUserId())) {
 			log.error("User id already exist");
 			return ResponseEntity.badRequest().body(new MessageResponse("User id already exist"));
@@ -41,16 +45,9 @@ public class FashionController {
 		return ResponseEntity.ok().body(new MessageResponse("User Registered Successfully"));
 	}
 
-	
-
-//	@PostMapping("/login")
-//	public ResponseEntity<?> login(@RequestBody User user){
-//		if(userService.authenticateUser(user.getUserId(),encoder.encode(user.getPassword()))) {
-//			log.info("Login Successful");
-//			return ResponseEntity.ok().body("Login Successful");
-//		}
-//		log.warn("Login Failed, Incorrect credentials");
-//		return ResponseEntity.badRequest().body("Login failed, Incorrect credentials");
-//	}
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody Users user) {
+		return authFeign.login(user);
+	}
 
 }

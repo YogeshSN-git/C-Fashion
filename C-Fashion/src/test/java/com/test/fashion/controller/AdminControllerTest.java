@@ -38,19 +38,19 @@ public class AdminControllerTest {
 		findAll.add(item1);
 		findAll.add(item2);
 		when(fashionService.getAdimnItems()).thenReturn(findAll);
-		assertTrue(adminController.getAdimnItems().contains(item1) && adminController.getAdimnItems().contains(item2));
+		assertTrue(adminController.getAdimnItems("token").contains(item1) && adminController.getAdimnItems("token").contains(item2));
 	}
 
 	@Test
 	public void addItem() {
 
-		assertEquals(adminController.addItem(item1).getStatusCodeValue(), 200);
+		assertEquals(adminController.addItem("token",item1).getStatusCodeValue(), 200);
 	}
 
 	@Test
 	public void delete() {
 
-		assertEquals(adminController.deleteItem(item1.getId()).getStatusCodeValue(), 200);
+		assertEquals(adminController.deleteItem("token",item1.getId()).getStatusCodeValue(), 200);
 	}
 
 	

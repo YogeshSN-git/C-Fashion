@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,18 +25,20 @@ public class AdminController {
 	FashionService fashionService;
 
 	@GetMapping("/all")
-	public List<FashionItem> getAdimnItems() {
+	public List<FashionItem> getAdimnItems(@RequestHeader("Authorization") final String token) {
 		return fashionService.getAdimnItems();
 	}
 
 	@PostMapping("/additem")
-	public ResponseEntity<?> addItem(@RequestBody FashionItem fashionItem) {
+	public ResponseEntity<?> addItem(@RequestHeader("Authorization") final String token,
+			@RequestBody FashionItem fashionItem) {
 		fashionService.addItem(fashionItem);
 		return ResponseEntity.ok().body(new MessageResponse("Item added"));
 	}
 
 	@DeleteMapping("/deleteitem/{fashionItemId}")
-	public ResponseEntity<?> deleteItem(@PathVariable(value = "fashionItemId") Integer fashionItemId) {
+	public ResponseEntity<?> deleteItem(@RequestHeader("Authorization") final String token,
+			@PathVariable(value = "fashionItemId") Integer fashionItemId) {
 		fashionService.deleteItem(fashionItemId);
 		return ResponseEntity.ok().body(new MessageResponse("Item deleted"));
 	}

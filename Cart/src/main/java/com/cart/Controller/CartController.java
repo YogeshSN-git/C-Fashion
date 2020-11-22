@@ -1,16 +1,11 @@
 package com.cart.Controller;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cart.Model.FashionItem;
@@ -26,14 +21,14 @@ public class CartController {
 	CartService cartService;
 
 
-	@PostMapping("/addtocart/{userId}/{itemId}")
+	@PutMapping("/addtocart/{userId}/{itemId}")
 	public void addToCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
 
 		cartService.addToCart(userId, itemId);
 	}
 
-	@PostMapping("/removefromcart/{userId}/{itemId}")
+	@PutMapping("/removefromcart/{userId}/{itemId}")
 	public void removeFromCart(@PathVariable(value = "userId") Integer userId,
 			@PathVariable(value = "itemId") Integer itemId) {
 

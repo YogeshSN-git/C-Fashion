@@ -17,7 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fashion.Controller.CustomerController;
-import com.fashion.Feign.FashionFeign;
+import com.fashion.Feign.CartFeign;
 import com.fashion.Model.FashionItem;
 import com.fashion.Service.FashionService;
 import com.fashion.Service.UserService;
@@ -39,7 +39,7 @@ public class CustomerControllerTest {
 	UserService userService;
 
 	@Mock
-	FashionFeign fashionFeign;
+	CartFeign cartFeign;
 
 	@Test
 	public void getUserItems() {
@@ -47,38 +47,38 @@ public class CustomerControllerTest {
 		List<FashionItem> findAll = new ArrayList<>();
 		findAll.add(item1);
 		when(fashionService.getCustomerItems()).thenReturn(findAll);
-		assertTrue(customerController.getCustomerItems().contains(item1));
+		assertTrue(customerController.getCustomerItems("token").contains(item1));
 	}
 
 	@Test
 	public void getCart() {
 		Set<FashionItem> findAll = new HashSet<>();
 		findAll.add(item1);
-		when(fashionFeign.cart(1)).thenReturn(findAll);
-		assertTrue(customerController.cart(1).contains(item1));
+		when(cartFeign.cart(1)).thenReturn(findAll);
+		assertTrue(customerController.cart("token",1).contains(item1));
 	}
 
 	@Test
 	public void addToCart() {
 		when(userService.isCustomer(1)).thenReturn(true);
-		assertEquals(customerController.addToCart(1, 1).getStatusCodeValue(), 200);
+		assertEquals(customerController.addToCart("token",1, 1).getStatusCodeValue(), 200);
 	}
 
 	@Test
 	public void addToCartfalse() {
 		when(userService.isCustomer(1)).thenReturn(false);
-		assertEquals(customerController.addToCart(1, 1).getStatusCodeValue(), 400);
+		assertEquals(customerController.addToCart("token",1, 1).getStatusCodeValue(), 400);
 	}
 
 	@Test
 	public void removefromcart() {
 		when(userService.isCustomer(1)).thenReturn(true);
-		assertEquals(customerController.removeFromCart(1, 1).getStatusCodeValue(), 200);
+		assertEquals(customerController.removeFromCart("token",1, 1).getStatusCodeValue(), 200);
 	}
 
 	@Test
 	public void removefromcartfalse() {
 		when(userService.isCustomer(1)).thenReturn(false);
-		assertEquals(customerController.removeFromCart(1, 1).getStatusCodeValue(), 400);
+		assertEquals(customerController.removeFromCart("token",1, 1).getStatusCodeValue(), 400);
 	}
 }

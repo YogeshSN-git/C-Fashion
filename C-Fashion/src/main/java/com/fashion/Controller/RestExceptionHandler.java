@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.client.HttpClientErrorException.Forbidden;
 import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -48,21 +47,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.badRequest().body(new MessageResponse("Bad Request: Item does not exist"));
 	}
 	
-//	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-//	@ExceptionHandler(Unauthorized.class)
-//	public ResponseEntity<?> handleUnauthorizedExceptions(Unauthorized ex) {
-//
-//		log.error("Unauthorized request");
-//		return ResponseEntity.badRequest().body(new MessageResponse("Unauthorized request. Login again..."));
-//	}
-//	
-//
-//	@ResponseStatus(HttpStatus.FORBIDDEN)
-//	@ExceptionHandler(Forbidden.class)
-//	public ResponseEntity<?> handleForbiddenExceptions(Forbidden ex) {
-//
-//		log.error("Forbidden request");
-//		return ResponseEntity.badRequest().body(new MessageResponse("You are not allowed to access this url"));
-//	}
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(FeignException.Unauthorized.class)
+	public ResponseEntity<?> handleFeignUnauthorizedExceptions(FeignException ex) {
+
+		log.error("Unauthorized request");
+		return ResponseEntity.badRequest().body(new MessageResponse("Unauthorized request. Login again..."));
+	}
+	
+	
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<?> handleUnauthorizedExceptions(UnauthorizedException ex) {
+
+		log.error("Unauthorized request");
+		return ResponseEntity.badRequest().body(new MessageResponse("Unauthorized request. Login again..."));
+	}
+	
+	
 
 }
